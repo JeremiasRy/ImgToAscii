@@ -8,7 +8,7 @@ if (!OperatingSystem.IsWindows())
 {
     return;
 }
-string imgPath = @"C:\Users\35844\source\repos\ImgToASCII\testpic2.jpeg";
+string imgPath = @"C:\Users\35844\source\repos\ImgToASCII\testpic.jpeg";
 string grayScalePath = @"C:\Users\35844\source\repos\ImgToASCII\grayscale.txt";
 char[] ASCIIGrayScale = Array.Empty<char>();
 
@@ -22,15 +22,57 @@ using (TextFieldParser tp = new(grayScalePath))
     }
 }
 
+float grayScaleMultiplier = (float)(ASCIIGrayScale.Length - 1) / 255;
 Bitmap img = (Bitmap)Bitmap.FromFile(imgPath);
-List<int> grayScale = new();
+List<string> grayScale = new();
 
-for (int i = 0; i < img.Width; i++)
+for (int i = 0; i < img.Height; i++)
 {
-    for(int j = 0; j < img.Height; j++)
+    string line = "";
+    int count = 0;
+    for(int j = 0; j < img.Width; j++)
     {
-        var pixel = img.GetPixel(i, j);
-        grayScale.Add((pixel.R + pixel.G + pixel.B) / 3);
+        if (count % 4 == 0)
+        {
+            var pixel = img.GetPixel(j, i);
+            int index = (int)Math.Round(grayScaleMultiplier * (float)((pixel.R + pixel.G + pixel.B) / 3));
+            line += ASCIIGrayScale[(int)index];
+        }
+        count++;
+        
+    }
+    grayScale.Add(line);
+}
+
+if (!File.Exists(@"C:\testdata\ASCIIpic.txt"))
+{
+    using (StreamWriter sw = File.CreateText(@"C:\testdata\ASCIIpic.txt"))
+    {
+        int count = 0;
+        foreach (var line in grayScale)
+        {
+            if (count % 3 == 0)
+            {
+                sw.WriteLine(line);
+            }
+            count++;
+            
+        }
+    }
+} else
+{
+    using (StreamWriter sw = new(@"C:\testdata\ASCIIpic.txt"))
+    {
+        int count = 0;
+        foreach (var line in grayScale)
+        {
+            if (count % 6 == 0)
+            {
+                sw.WriteLine(line);
+            }
+            count++;
+
+        }
     }
 }
 
