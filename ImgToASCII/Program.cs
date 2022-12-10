@@ -8,7 +8,7 @@ if (!OperatingSystem.IsWindows())
 {
     return;
 }
-string imgPath = @"C:\Users\35844\source\repos\ImgToASCII\untamo.png";
+string imgPath = @"C:\Users\35844\source\repos\ImgToASCII\eiffel-tower.jpg";
 string grayScalePath = @"C:\Users\35844\source\repos\ImgToASCII\grayscale.txt";
 char[] ASCIIGrayScale = Array.Empty<char>();
 
@@ -44,7 +44,20 @@ for (int i = 0; i < img.Height; i++)
     }
     grayScale.Add(line);
 }
+int countLine = 0;
+Console.WriteLine("Please put console to full screen to see some magic, Then press any key");
+Console.ReadKey();
+Console.SetCursorPosition(0, 0);
+foreach (var line in grayScale)
+{
+    Thread.Sleep(10);
+    if (countLine % 4 == 0)
+        Console.WriteLine(line);
+    countLine++;
+}
 
+Console.WriteLine("Do you want to save this picture?");
+Console.ReadKey();
 if (!File.Exists(@"C:\testdata\ASCIIpic.txt"))
 {
     using (StreamWriter sw = File.CreateText(@"C:\testdata\ASCIIpic.txt"))
@@ -52,7 +65,7 @@ if (!File.Exists(@"C:\testdata\ASCIIpic.txt"))
         int count = 0;
         foreach (var line in grayScale)
         {
-            if (count % 6 == 0)
+            if (count % 8 == 0)
             {
                 sw.WriteLine(line);
             }
@@ -66,7 +79,7 @@ if (!File.Exists(@"C:\testdata\ASCIIpic.txt"))
         int count = 0;
         foreach (var line in grayScale)
         {
-            if (count % 6 == 0)
+            if (count % 8 == 0)
             {
                 sw.WriteLine(line);
             }
