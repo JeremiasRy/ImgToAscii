@@ -8,7 +8,7 @@ if (!OperatingSystem.IsWindows())
 {
     return;
 }
-string imgPath = @"C:\Users\35844\source\repos\ImgToASCII\testpic.jpeg";
+string imgPath = @"C:\Users\35844\source\repos\ImgToASCII\untamo.png";
 string grayScalePath = @"C:\Users\35844\source\repos\ImgToASCII\grayscale.txt";
 char[] ASCIIGrayScale = Array.Empty<char>();
 
@@ -22,9 +22,10 @@ using (TextFieldParser tp = new(grayScalePath))
     }
 }
 
-float grayScaleMultiplier = (float)(ASCIIGrayScale.Length - 1) / 255;
 Bitmap img = (Bitmap)Bitmap.FromFile(imgPath);
 List<string> grayScale = new();
+float grayScaleMultiplier = (float)(ASCIIGrayScale.Length - 1) / 255;
+float heightToWidthRatio = (float)img.Height / (float)img.Width;
 
 for (int i = 0; i < img.Height; i++)
 {
@@ -32,7 +33,7 @@ for (int i = 0; i < img.Height; i++)
     int count = 0;
     for(int j = 0; j < img.Width; j++)
     {
-        if (count % 4 == 0)
+        if (count % 2 == 0)
         {
             var pixel = img.GetPixel(j, i);
             int index = (int)Math.Round(grayScaleMultiplier * (float)((pixel.R + pixel.G + pixel.B) / 3));
@@ -51,12 +52,11 @@ if (!File.Exists(@"C:\testdata\ASCIIpic.txt"))
         int count = 0;
         foreach (var line in grayScale)
         {
-            if (count % 3 == 0)
+            if (count % 6 == 0)
             {
                 sw.WriteLine(line);
             }
             count++;
-            
         }
     }
 } else
