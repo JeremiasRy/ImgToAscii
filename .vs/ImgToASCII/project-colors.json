@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "ProjectMap": {
+    "7b86b53d-a67e-434d-87c5-801aafcf0554": {
+      "ProjectGuid": "7b86b53d-a67e-434d-87c5-801aafcf0554",
+      "DisplayName": "ImgToASCII",
+      "ColorIndex": 0
+    }
+  },
+  "NextColorIndex": 1
+}
